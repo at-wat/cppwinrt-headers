@@ -13,10 +13,8 @@ jobs:
   generate:
     runs-on: windows-latest
     steps:
-      - uses: nuget/setup-nuget@v1
-        with:
-          nuget-version: latest
       - name: Setup CppWinRT
         run: Install-Package Microsoft.Windows.CppWinRT -Version ${CPPWINRT_VERSION}
+        shell: powershell
       - name: Generate headers
         run: cppwinrt.exe -in local -verbose
