@@ -16,7 +16,7 @@ jobs:
       - name: Install wget
         run: choco install wget --no-progress
       - name: Download CppWinRT
-        run: wget https://github.com/microsoft/cppwinrt/releases/download/${{ env.CPPWINRT_VERSION }}/Microsoft.Windows.CppWinRT.${{ env.CPPWINRT_VERSION }}.nupkg -O cppwinrt.nupkg
+        run: wget https://github.com/microsoft/cppwinrt/releases/download/${{ env.CPPWINRT_VERSION }}/Microsoft.Windows.CppWinRT.${{ env.CPPWINRT_VERSION }}.nupkg -O $(Join-Path $PSScriptRoot 'cppwinrt.nupkg')
       - name: Setup CppWinRT
         run: Install-Package $(Join-Path $PSScriptRoot 'cppwinrt.nupkg')
       - name: Generate headers
