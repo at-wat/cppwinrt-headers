@@ -14,7 +14,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Setup CppWinRT
-        run: Install-Package Microsoft.Windows.CppWinRT -Version ${CPPWINRT_VERSION}
+        run: Install-Package Microsoft.Windows.CppWinRT -Version ${{ env.CPPWINRT_VERSION }}
         shell: powershell
       - name: Generate headers
         run: cppwinrt.exe -in local -verbose
