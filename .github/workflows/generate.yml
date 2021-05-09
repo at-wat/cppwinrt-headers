@@ -13,8 +13,8 @@ jobs:
   generate:
     runs-on: windows-latest
     steps:
+      - run: wget https://github.com/microsoft/cppwinrt/releases/download/2.0.210505.3/Microsoft.Windows.CppWinRT.${{ env.CPPWINRT_VERSION }}.nupkg -O cppwinrt.nupkg
       - name: Setup CppWinRT
-        run: Install-Package Microsoft.Windows.CppWinRT -Version ${{ env.CPPWINRT_VERSION }}
-        shell: powershell
+        run: Install-Package Microsoft.Windows.CppWinRT cppwinrt.nupkg
       - name: Generate headers
         run: cppwinrt.exe -in local -verbose
