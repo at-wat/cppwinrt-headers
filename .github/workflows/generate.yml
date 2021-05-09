@@ -13,7 +13,10 @@ jobs:
   generate:
     runs-on: windows-latest
     steps:
-      - run: wget https://github.com/microsoft/cppwinrt/releases/download/2.0.210505.3/Microsoft.Windows.CppWinRT.${{ env.CPPWINRT_VERSION }}.nupkg -O cppwinrt.nupkg
+      - name: Install wget
+        run: choco install wget --no-progress
+      - name: Download CppWinRT
+        run: wget https://github.com/microsoft/cppwinrt/releases/download/${{ env.CPPWINRT_VERSION }}/Microsoft.Windows.CppWinRT.${{ env.CPPWINRT_VERSION }}.nupkg -O cppwinrt.nupkg
       - name: Setup CppWinRT
         run: Install-Package Microsoft.Windows.CppWinRT cppwinrt.nupkg
       - name: Generate headers
