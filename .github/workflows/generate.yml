@@ -18,6 +18,6 @@ jobs:
         with:
           nuget-version: latest
       - name: Setup CppWinRT
-        run: nuget install Microsoft.Windows.CppWinRT -Version ${{ CPPWINRT_VERSION }}
+        run: nuget install Microsoft.Windows.CppWinRT -Version ${{ env.CPPWINRT_VERSION }}
       - name: Generate headers
         run: cppwinrt.exe -in local -verbose
