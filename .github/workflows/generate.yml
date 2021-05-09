@@ -1,0 +1,17 @@
+name: generate
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
+jobs:
+  generate:
+    runs-on: windows-latest
+    steps:
+      - name: Setup CppWinRT
+        run: Install-Package Microsoft.Windows.CppWinRT
+      - name: Generate headers
+        run: cppwinrt.exe -in local -verbose
