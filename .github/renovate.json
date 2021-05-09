@@ -1,0 +1,18 @@
+{
+  "extends": [
+    "config:base"
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": [
+        ".github/workflows/generate.yml$"
+      ],
+      "matchStrings": [
+        "CPPWINRT_VERSION: (?<currentValue>.*)"
+      ],
+      "datasourceTemplate": "github-tags",
+      "depNameTemplate": " microsoft/cppwinrt",
+      "versioningTemplate": "nuget"
+    }
+  ]
+}
