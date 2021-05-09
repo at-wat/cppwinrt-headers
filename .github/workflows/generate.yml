@@ -1,0 +1,42 @@
+name: generate
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+    tags:
+      - '*'
+
+env:
+  CPPWINRT_VERSION: 2.0.210505.3
+jobs:
+  generate:
+    runs-on: windows-latest
+    steps:
+      - name: Setup NuGet
+        uses: nuget/setup-nuget@v1
+        with:
+          nuget-version: latest
+      - name: Setup CppWinRT
+        run: nuget install Microsoft.Windows.CppWinRT -Version ${{ env.CPPWINRT_VERSION }}
+      - name: Generate headers
+        run: .\Microsoft.Windows.CppWinRT.${{ env.CPPWINRT_VERSION }}\bin\cppwinrt.exe -in local -verbose
+      - name: Archive
+        shell: bash
+        run: tar czfv winrt.tar.gz winrt
+
+      - name: Check version
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: bash
+        run: |
+          tag=${GITHUB_REF#refs/tags/}
+          test "${tag}" = "${{ env.CPPWINRT_VERSION }}"
+      - name: Deploy
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: winrt.tar.gz
