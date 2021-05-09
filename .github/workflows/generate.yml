@@ -6,6 +6,8 @@ on:
   push:
     branches:
       - main
+    tags:
+      - '*'
 
 env:
   CPPWINRT_VERSION: 2.0.210505.3
@@ -21,6 +23,13 @@ jobs:
         run: nuget install Microsoft.Windows.CppWinRT -Version ${{ env.CPPWINRT_VERSION }}
       - name: Generate headers
         run: .\Microsoft.Windows.CppWinRT.${{ env.CPPWINRT_VERSION }}\bin\cppwinrt.exe -in local -verbose
-      - name: Test
+      - name: Archive
         shell: bash
-        run: ls -laR
+        run: tar czfv winrt.tar.gz winrt
+
+      - name: Deploy
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: winrt.tar.gz
